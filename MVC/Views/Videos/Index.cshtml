@@ -1,0 +1,73 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model MVC.Controllers.VideoListResponse
+@{
+    ViewData["Title"] = "Videos";
+}
+
+<form class="form-inline mb-3">
+    <div class="form-group mr-3">
+        <label for="videoNameFilter" class="mr-1">Video Name:</label>
+        <input type="text" class="form-control" name="videoNameFilter" id="videoNameFilter">
+    </div>
+    <div class="form-group mr-3">
+        <label for="genreNameFilter" class="mr-1">Genre Name:</label>
+        <input type="text" class="form-control" name="genreNameFilter" id="genreNameFilter">
+    </div>
+    <div class="form-group mr-3">
+        <label for="orderBy" class="mr-1">Order By:</label>
+        <select class="form-control" name="orderBy" id="orderBy">
+            <option value="id">ID</option>
+            <option value="name">Name</option>
+            <option value="totaltime">Total Time</option>
+        </select>
+    </div>
+    <div class="form-group mr-3">
+        <label for="page" class="mr-1">Page:</label>
+        <input type="number" class="form-control" name="page" id="page" value="1" min="1">
+    </div>
+    <div class="form-group mr-3">
+        <label for="pageSize" class="mr-1">Page Size:</label>
+        <input type="number" class="form-control" name="pageSize" id="pageSize" value="10" min="1" max="100">
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Video Name</th>
+            <th>Description</th>
+            <th>Image</th>
+            <th>Duration</th>
+            <th>Streaming URL</th>
+            <th>Genres</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var video in Model.Videos)
+        {
+            <tr>
+                <td>@video.Name</td>
+                <td>@video.Description</td>
+                <td>@video.Image</td>
+                <td>@video.TotalTime</td>
+                <td>@video.StreamingUrl</td>
+                <td>
+                    @for (int i = 0; i < video.Genres.Count; i++)
+                    {
+                        var genre = video.Genres.ElementAt(i);
+                        if (i!= video.Genres.Count-1)
+                        {
+                            <span>@genre.Name,</span>
+                        }
+                        else
+                        {
+                            <span>@genre.Name</span>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
